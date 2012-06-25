@@ -2,7 +2,7 @@
 
 var path = require('path'),
     fs = require('fs'),
-    sys  = require('sys');
+    util = require('util');
 
 var accepts = ['start', 'stop', 'stopall', 'list'], action;
 if (accepts.indexOf(process.argv[2]) !== -1) {
@@ -63,7 +63,7 @@ function isSimpleAction () {
 // incorrect usage options are supplied
 if (argv.h || argv.help || 
   (argv._.length === 0 && !isSimpleAction())) {
-  sys.puts(help);
+  util.puts(help);
   return;
 }
 
@@ -112,17 +112,17 @@ loader.on('load', function () {
           
         case 'stop':
           if (!(/(\d+)/.test(file))) {
-            sys.puts(file + ' is not a valid index for a forever process.');
+            util.puts(file + ' is not a valid index for a forever process.');
             process.exit(0);
           }
 
           var runner = forever.stop(parseInt(file), true);
           runner.on('stop', function (process) {
-            sys.puts('Forever stopped process:');
-            sys.puts(process);
+            util.puts('Forever stopped process:');
+            util.puts(process);
           });
           runner.on('error', function (err) {
-            sys.puts('Forever cannot find process with index: ' + file)
+            util.puts('Forever cannot find process with index: ' + file)
           })
           break;
           
@@ -130,18 +130,18 @@ loader.on('load', function () {
           var runner = forever.stopAll(true);
           runner.on('stopAll', function (processes) {
             if (processes) {
-              sys.puts('Forever stopped processes:');
-              sys.puts(processes);
+              util.puts('Forever stopped processes:');
+              util.puts(processes);
             }
             else {
-              sys.puts('No forever processes running');
+              util.puts('No forever processes running');
             }
           });
           break;
           
         case 'list':
           var processes = forever.list(true);
-          sys.puts(processes ? processes : 'No forever processes running');
+          util.puts(processes ? processes : 'No forever processes running');
           break;
       }
     }
