@@ -1,4 +1,4 @@
-var sys = require('sys'),    
+var util = require('util'),    
   http = require('http');
 
 http.createServer(function (req, res) {
@@ -8,4 +8,4 @@ http.createServer(function (req, res) {
 }).listen(8000);
 
 /* server started */  
-sys.puts('> hello world running on port 80');
+util.puts('> hello world running on port 80');
